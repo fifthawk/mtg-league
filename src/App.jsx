@@ -904,10 +904,14 @@ export default function App() {
                         </div>
                         <OrnateRule color={h.primary} />
                         <div
-                          style={{ display: "flex", gap: 20, flexWrap: "wrap" }}
+                          style={{
+                            display: "flex",
+                            gap: 20,
+                            flexWrap: "wrap",
+                            justifyContent: "center",
+                          }}
                         >
                           {[
-                            { label: "Wins", val: p.wins },
                             { label: "Bonus", val: p.bonus },
                             { label: "Weekly", val: p.weeklyBonus },
                           ].map((b) => (
