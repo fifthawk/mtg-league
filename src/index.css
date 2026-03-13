@@ -109,3 +109,44 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.fab {
+  transition: transform 0.15s ease;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+.fab:hover {
+  transform: scale(1.1) !important;
+  filter: drop-shadow(0 6px 20px rgba(200,148,58,0.8)) !important;
+}
+@keyframes pulse {
+  0%, 100% { filter: drop-shadow(0 4px 12px rgba(200,148,58,0.4)); }
+  50% { filter: drop-shadow(0 4px 24px rgba(200,148,58,0.8)); }
+}
+
+.card-border-wrap {
+  position: relative;
+  display: block;
+  border-radius: 5px;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    color-mix(in srgb, var(--player-accent) 40%, transparent) 60deg,
+    color-mix(in srgb, var(--player-accent) 60%, white) 90deg,
+    color-mix(in srgb, var(--player-accent) 40%, transparent) 120deg,
+    transparent 180deg
+  );
+  animation: spin-border 10s linear infinite;
+  overflow: hidden; 
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-border {
+  to { --angle: 360deg; }
+}
+
