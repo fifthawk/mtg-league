@@ -396,14 +396,14 @@ export default function App() {
       games.forEach((g) => {
         if (pi >= g.player_count) return;
         gamesPlayed++;
-        const pos = g.placements.indexOf(pi);
+        const pos = g.placements[pi];
         const placementPts =
           g.player_count === 4
             ? (PLACEMENT_POINTS_4P[pos] ?? 0)
             : (PLACEMENT_POINTS_3P[pos] ?? 0);
         const multiplier = g.is_playoff ? 2 : 1;
         placement += placementPts * multiplier;
-        if (g.placements[0] === pi) wins++;
+        if (pos === 0) wins++;
         Object.entries(g.bonuses[pi] || {}).forEach(([id, val]) => {
           if (!val) return;
           const cat = BONUS_CATEGORIES.find((c) => c.id === id);
@@ -428,7 +428,7 @@ export default function App() {
       if (!weeks[g.week]) weeks[g.week] = {};
       players.forEach((_, pi) => {
         if (pi >= g.player_count) return;
-        if (g.placements[0] === pi)
+        if (g.placements[pi] === 0)
           weeks[g.week][pi] = (weeks[g.week][pi] || 0) + 1;
       });
     });
@@ -829,20 +829,6 @@ export default function App() {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
                               style={{
-                                fontSize: 10,
-                                fontWeight: 500,
-                                letterSpacing: 4,
-                                color: h.accent + "99",
-                                textTransform: "uppercase",
-                                fontFamily: "'Cinzel', serif",
-                                marginBottom: 3,
-                                opacity: 0.9,
-                              }}
-                            >
-                              {h.motto}
-                            </div>
-                            <div
-                              style={{
                                 fontSize: 24,
                                 fontWeight: 700,
                                 color:
@@ -865,7 +851,9 @@ export default function App() {
                                 fontStyle: "italic",
                               }}
                             >
-                              {p.wins} victories
+                              {p.wins !== 1
+                                ? p.wins + " victories"
+                                : p.wins + " victory"}
                             </div>
                           </div>
                           <div style={{ textAlign: "right", flexShrink: 0 }}>
@@ -990,6 +978,21 @@ export default function App() {
                             color: h.accent + "88",
                           }}
                         >
+                          <div
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 500,
+                              letterSpacing: 4,
+                              color: h.accent + "99",
+                              textTransform: "uppercase",
+                              fontFamily: "'Cinzel', serif",
+                              marginTop: 10,
+                              opacity: 0.9,
+                              textAlign: "center",
+                            }}
+                          >
+                            {h.motto}
+                          </div>
                           ▲
                         </div>
                       </div>
