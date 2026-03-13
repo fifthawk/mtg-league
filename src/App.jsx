@@ -76,6 +76,7 @@ const HERALDRY = [
     secondary: "#3a0505",
     accent: "#c8922a",
     pattern: "green",
+    motto: "Si vis pacem, para bellum",
   },
   {
     primary: "#1A3A5C",
@@ -281,7 +282,7 @@ const OrnateRule = ({ color = "#3a2a10" }) => (
 );
 
 export default function App() {
-  const [showBonusRef, setShowBonusRef] = useState(true);
+  const [showBonusRef, setShowBonusRef] = useState(false);
   const [players] = useState(DEFAULT_PLAYERS);
   const [games, setGames] = useState([]);
   const [view, setView] = useState("standings");
@@ -821,7 +822,7 @@ export default function App() {
                                 opacity: 0.7,
                               }}
                             >
-                              {h.title}
+                              {h.motto}
                             </div>
                             <div
                               style={{
