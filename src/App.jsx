@@ -72,23 +72,28 @@ const DEFAULT_PLAYERS = ["Jack", "Danny", "Zach"];
 
 const HERALDRY = [
   {
-    primary: "#7246be",
-    secondary: "#3a0505",
+    primary: "#3a0a0a",
+    secondary: "#5a3a00",
     accent: "#c8922a",
     pattern: "green",
     motto: "Si vis pacem, para bellum",
+    cardMid: "#1a0505",
   },
   {
     primary: "#1A3A5C",
     secondary: "#2E6B9E",
     accent: "#7EC8E3",
     pattern: "dragon",
+    motto: "Non solis radios sed Iovis fulmina mitto",
+    cardMid: "#0f0a00", // near-black, warm amber undertone
   },
   {
     primary: "#1A4A1A",
     secondary: "#2E7D32",
     accent: "#A5D6A7",
     pattern: "crow",
+    motto: "Noli Timere Messorem",
+    cardMid: "#060f06", // deep forest black
   },
 ];
 
@@ -246,7 +251,8 @@ const Shield = ({ heraldry, size = 80, rank }) => {
         strokeWidth="1"
         opacity="0.3"
       />
-      {rank === 0 && (
+      {(rank === 0) &
+      (
         <g transform="translate(50,3)">
           <polygon
             points="-8,-8 -6,-2 0,-6 6,-2 8,-8 9,0 -9,0"
@@ -699,13 +705,13 @@ export default function App() {
                     style={{
                       animationDelay: `${rank * 0.1}s`,
                       opacity: 0,
-                      background: `linear-gradient(135deg, ${h.primary}1a 0%, #899bad 60%, ${h.primary}0d 100%)`,
+                      background: `linear-gradient(135deg, ${h.primary}33 0%, ${h.cardMid} 60%, ${h.primary}11 100%)`,
                       backgroundColor: "#1a1814",
-                      border: `1px solid ${h.accent}33`,
+                      border: `1px solid ${h.accent}99`,
                       borderRadius: 3,
                       overflow: "hidden",
                       boxShadow:
-                        rank === 0
+                        rank === 0 && p.points > 0
                           ? `0 4px 30px ${h.primary}2a, inset 0 1px 0 ${h.accent}1a`
                           : "0 2px 12px rgba(0,0,0,0.4)",
                     }}
@@ -733,7 +739,10 @@ export default function App() {
                             style={{
                               fontSize: 18,
                               fontWeight: 700,
-                              color: rank === 0 ? h.accent : "#d0c0a0",
+                              color:
+                                rank === 0 && p.points > 0
+                                  ? h.accent
+                                  : "#d0c0a0",
                               fontFamily: "'Cinzel Decorative', serif",
                               letterSpacing: 1,
                             }}
@@ -742,7 +751,8 @@ export default function App() {
                           </div>
                           <div
                             style={{
-                              fontSize: 10,
+                              fontSize: 24,
+                              fontWeight: 700,
                               color: "#3a2a18",
                               letterSpacing: 2,
                               fontFamily: "'Cinzel', serif",
@@ -750,7 +760,7 @@ export default function App() {
                               marginTop: 2,
                             }}
                           >
-                            Rank {RANK_ROMAN[rank]}
+                            Rank {p.total !== 0 ? RANK_ROMAN[rank] : "N/A"}
                           </div>
                         </div>
                         <div style={{ textAlign: "right" }}>
@@ -759,18 +769,24 @@ export default function App() {
                               fontSize: 30,
                               fontWeight: 900,
                               lineHeight: 1,
-                              color: rank === 0 ? h.accent : "#a09060",
+                              color:
+                                rank === 0 && p.points > 0
+                                  ? h.accent
+                                  : "#a09060",
                               fontFamily: "'Cinzel', serif",
                               textShadow:
-                                rank === 0 ? `0 0 20px ${h.accent}55` : "none",
+                                rank === 0 && p.points > 0
+                                  ? `0 0 20px ${h.accent}55`
+                                  : "none",
                             }}
                           >
                             {p.total}
                           </div>
                           <div
                             style={{
-                              fontSize: 8,
-                              color: "#3a2a18",
+                              fontSize: 15,
+                              fontWeight: 1000,
+                              color: h.accent + "99",
                               letterSpacing: 3,
                               fontFamily: "'Cinzel', serif",
                               textTransform: "uppercase",
@@ -782,7 +798,7 @@ export default function App() {
                         <div
                           style={{
                             fontSize: 10,
-                            color: h.accent + "88",
+                            color: h.accent + "bb",
                             marginLeft: 4,
                           }}
                         >
@@ -813,13 +829,14 @@ export default function App() {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
                               style={{
-                                fontSize: 9,
+                                fontSize: 10,
+                                fontWeight: 500,
                                 letterSpacing: 4,
-                                color: h.secondary,
+                                color: h.accent + "99",
                                 textTransform: "uppercase",
                                 fontFamily: "'Cinzel', serif",
                                 marginBottom: 3,
-                                opacity: 0.7,
+                                opacity: 0.9,
                               }}
                             >
                               {h.motto}
@@ -828,7 +845,10 @@ export default function App() {
                               style={{
                                 fontSize: 24,
                                 fontWeight: 700,
-                                color: rank === 0 ? h.accent : "#d0c0a0",
+                                color:
+                                  rank === 0 && p.points > 0
+                                    ? h.accent
+                                    : "#d0c0a0",
                                 fontFamily: "'Cinzel Decorative', serif",
                                 letterSpacing: 1,
                                 lineHeight: 1,
@@ -851,7 +871,8 @@ export default function App() {
                           <div style={{ textAlign: "right", flexShrink: 0 }}>
                             <div
                               style={{
-                                fontSize: 9,
+                                fontSize: 18,
+                                fontWeight: 700,
                                 letterSpacing: 3,
                                 color: h.secondary,
                                 fontFamily: "'Cinzel', serif",
@@ -860,17 +881,20 @@ export default function App() {
                                 opacity: 0.6,
                               }}
                             >
-                              Rank {RANK_ROMAN[rank]}
+                              Rank {p.total !== 0 ? RANK_ROMAN[rank] : "N/A"}
                             </div>
                             <div
                               style={{
                                 fontSize: 38,
                                 fontWeight: 900,
                                 lineHeight: 1,
-                                color: rank === 0 ? h.accent : "#a09060",
+                                color:
+                                  rank === 0 && p.points > 0
+                                    ? h.accent
+                                    : "#a09060",
                                 fontFamily: "'Cinzel', serif",
                                 textShadow:
-                                  rank === 0
+                                  rank === 0 && p.points > 0
                                     ? `0 0 20px ${h.accent}55`
                                     : "none",
                               }}
@@ -879,8 +903,8 @@ export default function App() {
                             </div>
                             <div
                               style={{
-                                fontSize: 8,
-                                color: "#3a2a18",
+                                fontSize: 15,
+                                color: h.accent + "99",
                                 letterSpacing: 3,
                                 fontFamily: "'Cinzel', serif",
                                 textTransform: "uppercase",
@@ -902,9 +926,10 @@ export default function App() {
                             <div key={b.label}>
                               <span
                                 style={{
-                                  color: "#3a2a18",
+                                  color: h.accent + "99",
                                   fontFamily: "'Cinzel', serif",
-                                  fontSize: 8,
+                                  fontSize: 15,
+                                  fontWeight: 2000,
                                   letterSpacing: 2,
                                   textTransform: "uppercase",
                                 }}
@@ -914,7 +939,7 @@ export default function App() {
                               <span
                                 style={{
                                   color: h.secondary,
-                                  fontSize: 13,
+                                  fontSize: 20,
                                   fontFamily: "'Cinzel', serif",
                                 }}
                               >
@@ -1011,7 +1036,7 @@ export default function App() {
                   <div
                     style={{
                       flex: 1,
-                      fontSize: 10,
+                      fontSize: 20,
                       letterSpacing: 4,
                       color: "#5a4018",
                       textTransform: "uppercase",
@@ -1053,7 +1078,7 @@ export default function App() {
                         <div style={{ flex: 1 }}>
                           <span
                             style={{
-                              fontSize: 13,
+                              fontSize: 20,
                               color: "#8a7848",
                               fontFamily: "'IM Fell English', serif",
                             }}
@@ -1062,7 +1087,7 @@ export default function App() {
                           </span>
                           <div
                             style={{
-                              fontSize: 11,
+                              fontSize: 15,
                               color: "#5a4a28",
                               fontFamily: "'IM Fell English', serif",
                               fontStyle: "italic",
@@ -1086,8 +1111,8 @@ export default function App() {
                     <OrnateRule />
                     <div
                       style={{
-                        fontSize: 11,
-                        color: "#2a1e0a",
+                        fontSize: 15,
+                        color: "#8f7e60",
                         fontFamily: "'IM Fell English', serif",
                         fontStyle: "italic",
                         textAlign: "center",
@@ -1098,8 +1123,8 @@ export default function App() {
                     </div>
                     <div
                       style={{
-                        fontSize: 11,
-                        color: "#2a1e0a",
+                        fontSize: 15,
+                        color: "#8f7e60",
                         fontFamily: "'IM Fell English', serif",
                         fontStyle: "italic",
                         textAlign: "center",
