@@ -25,14 +25,14 @@ const BONUS_CATEGORIES = [
     emoji: "💀",
     name: "Full Table",
     desc: "Eliminate all opponents in one turn",
-    points: 1,
+    points: 2,
   },
   {
     id: "speedDemon",
     emoji: "🏃",
     name: "Speed Demon",
     desc: "Win before turn 8",
-    points: 1,
+    points: 2,
   },
   {
     id: "lastStand",
@@ -85,7 +85,7 @@ const HERALDRY = [
     accent: "#7EC8E3",
     pattern: "dragon",
     motto: "Non solis radios sed Iovis fulmina mitto",
-    cardMid: "#0f0a00", // near-black, warm amber undertone
+    cardMid: "#0f0a00",
   },
   {
     primary: "#1A4A1A",
@@ -93,7 +93,7 @@ const HERALDRY = [
     accent: "#A5D6A7",
     pattern: "crow",
     motto: "Noli Timere Messorem",
-    cardMid: "#060f06", // deep forest black
+    cardMid: "#060f06",
   },
 ];
 
@@ -578,18 +578,7 @@ export default function App() {
           >
             Commander League
           </h1>
-          <div
-            style={{
-              fontSize: 12,
-              letterSpacing: 7,
-              color: "#e8b84b",
-              textTransform: "uppercase",
-              marginBottom: 10,
-              fontFamily: "'Cinzel', serif",
-            }}
-          >
-            If there can be no victory, then I will fight forever
-          </div>
+
           <div
             style={{
               display: "flex",
@@ -1016,6 +1005,18 @@ export default function App() {
             {/* BONUS REFERENCE */}
             <div
               style={{
+                fontSize: 8,
+                letterSpacing: 7,
+                color: "#e8b84b",
+                textTransform: "uppercase",
+                marginBottom: 10,
+                fontFamily: "'Cinzel', serif",
+              }}
+            >
+              If there can be no victory, then I will fight forever
+            </div>
+            <div
+              style={{
                 marginTop: 28,
                 background: "rgba(8,6,4,0.95)",
                 border: "1px solid #1e1408",
@@ -1185,9 +1186,9 @@ export default function App() {
                 <div
                   key={game.id}
                   style={{
-                    background: "rgba(10,8,6,0.9)",
-                    border: "1px solid #1e1408",
-                    borderRadius: 3,
+                    background: "rgba(27, 26, 23, 0.86)",
+                    border: "1px solid #b9b1a8",
+                    borderRadius: 5,
                     padding: 16,
                     marginBottom: 10,
                   }}
@@ -1202,7 +1203,7 @@ export default function App() {
                   >
                     <div
                       style={{
-                        fontSize: 9,
+                        fontSize: 16,
                         color: "#5a4018",
                         letterSpacing: 3,
                         fontFamily: "'Cinzel', serif",
@@ -1218,17 +1219,32 @@ export default function App() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "#2a1010",
+                        color: "#a40d0d",
                         cursor: "pointer",
-                        fontSize: 10,
+                        fontSize: 20,
                         fontFamily: "'Cinzel', serif",
                         letterSpacing: 1,
                       }}
                     >
-                      ✕ remove
+                      ✕
                     </button>
                   </div>
                   <OrnateRule />
+                  {(() => {
+                    const winner = sorted[0];
+                    const wh = HERALDRY[winner.pi] || HERALDRY[0];
+                    return (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBottom: 12,
+                        }}
+                      >
+                        <Shield heraldry={wh} size={64} rank={0} />
+                      </div>
+                    );
+                  })()}
                   {sorted.map(({ pi, pos }) => {
                     const h = HERALDRY[pi] || HERALDRY[0];
                     const placePts =
@@ -1245,14 +1261,14 @@ export default function App() {
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: 10,
                           padding: "5px 0",
                         }}
                       >
                         <span
                           style={{
-                            fontSize: 11,
-                            width: 18,
+                            fontSize: 15,
+                            width: 24,
+                            flexShrink: 0,
                             color: [h.accent, "#909090", "#8a5020"][pos],
                             fontFamily: "'Cinzel', serif",
                           }}
@@ -1261,28 +1277,28 @@ export default function App() {
                         </span>
                         <span
                           style={{
-                            fontSize: 14,
+                            fontSize: 18,
                             flex: 1,
                             color: "#b8a878",
                             fontFamily: "'IM Fell English', serif",
                           }}
                         >
-                          {pi < 3 ? players[pi] : "Guest"}
-                        </span>
-                        <span style={{ fontSize: 12, color: "#5a4a28" }}>
-                          {bonusList
-                            .map(
-                              ([id]) =>
-                                BONUS_CATEGORIES.find((c) => c.id === id)
-                                  ?.emoji,
-                            )
-                            .join("")}
+                          {pi < 3 ? players[pi] : "Guest"}{" "}
+                          <span style={{ fontSize: 16, color: "#5a4a28" }}>
+                            {bonusList
+                              .map(
+                                ([id]) =>
+                                  BONUS_CATEGORIES.find((c) => c.id === id)
+                                    ?.emoji,
+                              )
+                              .join("")}
+                          </span>
                         </span>
                         <span
                           style={{
-                            fontSize: 12,
+                            fontSize: 14,
+                            flexShrink: 0,
                             color: h.secondary,
-                            minWidth: 40,
                             textAlign: "right",
                             fontFamily: "'Cinzel', serif",
                           }}
